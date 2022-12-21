@@ -7,7 +7,12 @@ use Illuminate\Support\Str;
 
 class TransactionService
 {
-
+    /**
+     * Processes transaction csv file from the given path and 
+     * store the record in the db 
+     * @param string $path
+     * @return array
+     */
     function processTxnCsv(string $path)
     {
         $data = array_map('str_getcsv', file($path));
@@ -28,6 +33,11 @@ class TransactionService
         return $transactions;
     }
 
+    /**
+     * builds Transaction object
+     * @param mixed $transactionData
+     * @return array
+     */
     private function buildTransaction($transactionData)
     {
         $txn = new Transaction();
@@ -59,7 +69,14 @@ class TransactionService
         return $transactions;
     }
 
-    function getTransactionsByWalletAddress($walletAddress, $page = 0, $limit = 10)
+    /**
+     * Gets sum of total amount and paginated transactions by wallet address
+     * @param string $walletAddress
+     * @param int $page
+     * @param int $limit
+     * @return array<array>
+     */
+    function getTransactionsByWalletAddress(string $walletAddress, int $page, int $limit)
     {
         $transactions = Transaction::where('address', $walletAddress)->skip($page * $limit)->limit($limit)->orderBy('date_time')->get();
         $totalRecords = $this->getTotalCountByWalletAddress($walletAddress);
@@ -79,12 +96,22 @@ class TransactionService
         ];
     }
 
-    function getTxnTotalAmount($walletAddress)
+    /**
+     * Gets sum of total ammount of transaction by wallet address
+     * @param string $walletAddress
+     * @return mixed
+     */
+    function getTxnTotalAmount(string $walletAddress)
     {
         return Transaction::where('address', $walletAddress)->sum('amount');
     }
 
-    function getTotalCountByWalletAddress($walletAddress)
+    /**
+     * Get total count of transactions records by wallet address
+     * @param string $walletAddress
+     * @return mixed
+     */
+    function getTotalCountByWalletAddress(string $walletAddress)
     {
         return Transaction::where('address', $walletAddress)->count();
     }
