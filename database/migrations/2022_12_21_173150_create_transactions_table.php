@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('tx_hash');
-            $table->dateTime('date_time');
-            $table->decimal('amount');
+            $table->dateTime('date_time')->index('txn_date_time');
+            $table->double('amount');
             $table->string('address');
             $table->timestamps();
+
         });
     }
 
