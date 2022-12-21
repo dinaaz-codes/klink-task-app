@@ -22,12 +22,18 @@ class TransactionController extends Controller
      *
      * 
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json([
-            "message" => "file uploaded",
-            200
-        ]);
+        $walletAddress = $request->query('wallet_address');
+
+        if (!$walletAddress)
+            return response()->json(['message' => 'wallet_address param is required!'], 400);
+
+        $page = $request->query('page') ?? 0;
+        $limit = $request->query('limit') ?? 10;
+
+        $response = $this->transactionService->getTransactionsByWalletAddress($walletAddress, $page, $limit);
+        return response()->json($response, 200);
     }
 
     /**
@@ -47,8 +53,7 @@ class TransactionController extends Controller
                 "totalRecords" => count($transactions),
                 "items" => $transactions
             ],
-            200
-        ]);
+        ], 201);
     }
 
 }
