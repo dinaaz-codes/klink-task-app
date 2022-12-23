@@ -1,7 +1,13 @@
-import React from 'react';
+import UploadTxnForm from "@/Components/UploadCsvForm";
+import React from "react";
+import { Container } from "react-bootstrap";
 
 const Home = () => {
-    return <h1>Yo bro!</h1>
-}
+    return (
+        <Container>
+            <UploadTxnForm />
+        </Container>
+    );
+};
 
 export default Home;
