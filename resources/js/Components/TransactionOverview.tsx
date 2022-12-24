@@ -1,4 +1,4 @@
-import { VariantType } from "@/Pages/Transactions";
+import { VariantType } from "./../Pages/Transactions";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { faMoon as solidFaMoon } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ const TransactionOverview = ({
     toggleVariant,
 }: Props) => {
     return (
-        <Row >
+        <Row>
             <Col lg={9}>
                 <h4 className="text-success">
                     Total Amount : {Intl.NumberFormat().format(totalAmount)}
@@ -26,9 +26,24 @@ const TransactionOverview = ({
             <Col lg={2}></Col>
             <Col className="justify-content-end">
                 {variant === VariantType.DARK ? (
-                    <FontAwesomeIcon icon={faMoon}  onClick={()=>{toggleVariant(variant)}} color="warning" />
+                    <div data-testid="famoon-light-id">
+                        <FontAwesomeIcon
+                            icon={faMoon}
+                            onClick={() => {
+                                toggleVariant(variant);
+                            }}
+                            color="warning"
+                        />
+                    </div>
                 ) : (
-                    <FontAwesomeIcon icon={solidFaMoon} onClick={()=>{toggleVariant(variant)}}/>
+                    <div data-testid="famoon-dark-id">
+                        <FontAwesomeIcon
+                            icon={solidFaMoon}
+                            onClick={() => {
+                                toggleVariant(variant);
+                            }}
+                        />
+                    </div>
                 )}
             </Col>
         </Row>

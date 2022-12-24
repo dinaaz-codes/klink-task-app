@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import CustomPagination from "./CustomPagination";
-import { ResponseMeta, Transaction } from "@/types/transaction";
+import { ResponseMeta, Transaction } from "./../Types/transaction";
 
 type Props = {
     variant:"dark"|"light";

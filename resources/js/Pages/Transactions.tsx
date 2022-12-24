@@ -1,8 +1,8 @@
-import SearchBox from "@/Components/SearchBox";
-import TransactionOverview from "@/Components/TransactionOverview";
-import TransactionTable from "@/Components/TransactionTable";
-import useTransactions from "@/Hooks/useTransactions";
-import { ResponseMeta, Transaction } from "@/types/transaction";
+import SearchBox from "./../Components/SearchBox";
+import TransactionOverview from "./../Components/TransactionOverview";
+import TransactionTable from "./../Components/TransactionTable";
+import useTransactions from "./../Hooks/useTransactions";
+import { ResponseMeta, Transaction } from "./../Types/transaction";
 import React, { useState } from "react";
 import { Alert, Container } from "react-bootstrap";
 
@@ -30,8 +30,10 @@ const Transactions = () => {
 
     const onSearchHandler = async () => {
         setPageNo(0);
+        console.log("waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",walletAddress)
         if (!walletAddress || walletAddress == "") return;
         const response = await getTransactions(walletAddress, pageNo);
+        console.log('hhhhhhhhhhhhhhhhhhhhhhh');
         setTransactions(response.data.transactions);
         setTransactionMeta(response.meta);
         setTotalAmount(response.data.totalAmount);
@@ -46,20 +48,25 @@ const Transactions = () => {
 
     return (
         <Container>
-            <SearchBox
-                onSearchHandler={onSearchHandler}
-                onSearchChangeHandler={(value) => {
-                    setWalletAddress(value);
-                }}
-            />
+            <div data-testid="search-box-id">
+                <SearchBox
+                    onSearchHandler={onSearchHandler}
+                    onSearchChangeHandler={(value) => {
+                        setWalletAddress(value);
+                    }}
+                />
+            </div>
+
             {transactions && transactions.length > 0 && (
-                <div className="m-3">
+                <div className="m-3" data-testid="transaction-list-id">
                     <TransactionOverview
+                        data-testid="transaction-overview-id"
                         totalAmount={totalAmount}
                         variant={variant}
                         toggleVariant={toggleVariant}
                     />
                     <TransactionTable
+                        data-testid="transaction-table-id"
                         col={[
                             "Sr No",
                             "Date",
@@ -75,7 +82,7 @@ const Transactions = () => {
                 </div>
             )}
             {transactions?.length === 0 && (
-                <Alert variant="light">
+                <Alert data-testid="bootstrap-alert-id" variant="light">
                     <h4> No Records found.</h4>
                 </Alert>
             )}

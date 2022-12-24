@@ -9,6 +9,7 @@ const Header = () => {
             <Container>
                 <Navbar.Brand href="/">
                     <img
+                        data-testid="logo-id"
                         alt="klink logo"
                         src="https://uploads-ssl.webflow.com/63123f170934f7ba0d43e3d5/631659736f7b0e91baeb8f6b_Logo.svg"
                         width="80"

@@ -1,5 +1,5 @@
-import { apiConfig } from "@/Config/api";
-import { TxnResponse } from "@/types/transaction";
+import { apiConfig } from  "./../Config/api";
+import { TxnResponse } from "./../Types/transaction";
 import axios from "axios";
 
 export const useTransactions = () => {
@@ -15,6 +15,7 @@ export const useTransactions = () => {
 
             const response = await axios.get(url);
 
+            console.log(response.data)
             return response.data;
         } catch (err) {
             throw err;
@@ -23,6 +24,7 @@ export const useTransactions = () => {
 
     const uploadTransactionCsv = async (file: File) => {
         try {
+            console.log(file);
             const url = apiConfig.transactions.uploadCsv;
             const formData = new FormData();
 

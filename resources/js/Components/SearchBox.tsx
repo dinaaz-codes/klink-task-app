@@ -14,6 +14,7 @@ const SearchBox = ({ onSearchHandler, onSearchChangeHandler }: Props) => {
             <Row className="justify-content-lg-center">
                 <Col lg={7}>
                     <Form.Control
+                        data-testid="search-input-id"
                         type="text"
                         placeholder="Enter Wallet Address"
                         onChange={(e) => {
@@ -25,7 +26,11 @@ const SearchBox = ({ onSearchHandler, onSearchChangeHandler }: Props) => {
                     />
                 </Col>
                 <Col lg={1}>
-                    <Button variant="primary" onClick={onSearchHandler}>
+                    <Button
+                        data-testid="search-button-id"
+                        variant="primary"
+                        onClick={onSearchHandler}
+                    >
                         <FontAwesomeIcon
                             icon={faMagnifyingGlass}
                             color="white"
