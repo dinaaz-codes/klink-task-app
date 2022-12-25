@@ -13,6 +13,8 @@ Task assigned by Klink for the role of fullstack engineer.
 3. MySQL
 4. PhpUnit
 5. Jest
+6. AWS
+
 ### Run Server
 ```bash
 composer install
