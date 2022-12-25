@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Transaction;
 use Illuminate\Support\Str;
+use Exception;
 
 class TransactionService
 {
@@ -17,6 +18,8 @@ class TransactionService
     {
         $data = array_map('str_getcsv', file($path));
         $csvHeader = array_slice($data, 0, 1)[0];
+        $csvHeader = $this->validateTransactionCsvHeader($csvHeader);
+
         $csvData = array_slice($data, 1);
         $assoc = array();
 
@@ -42,10 +45,10 @@ class TransactionService
     {
         $txn = new Transaction();
         $txn->id = Str::uuid();
-        $txn->tx_hash = $transactionData['Txhash'];
-        $txn->amount = floatval(str_replace(',', '', $transactionData['Amount']));
-        $txn->address = $transactionData['Address'];
-        $txn->date_time = $transactionData['DateTime'];
+        $txn->tx_hash = $transactionData['txhash'];
+        $txn->amount = floatval(str_replace(',', '', $transactionData['amount']));
+        $txn->address = $transactionData['address'];
+        $txn->date_time = $transactionData['datetime'];
         return $txn->toArray();
     }
 
@@ -114,6 +117,19 @@ class TransactionService
     function getTotalCountByWalletAddress(string $walletAddress)
     {
         return Transaction::where('address', $walletAddress)->count();
+    }
+
+    function validateTransactionCsvHeader($csvHeader){
+        $desiredCsvHeader = ['txhash','amount','address','datetime'];
+
+        $csvHeader = array_map('strtolower', $csvHeader);
+
+        $result = array_intersect($desiredCsvHeader, $csvHeader);
+
+        if (count($desiredCsvHeader) !== count($result))
+            throw new Exception('Invalid Csv Header',400);
+
+        return $csvHeader;
     }
 
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\UploadTransactionRequest;
 use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Exception;
 
 class TransactionController extends Controller
 {
@@ -43,17 +44,24 @@ class TransactionController extends Controller
      */
     public function upload(UploadTransactionRequest $request)
     {
-        $path = $request->file('file')->getRealPath();
+        try {
+            $path = $request->file('file')->getRealPath();
 
-        $transactions = $this->transactionService->processTxnCsv($path);
+            $transactions = $this->transactionService->processTxnCsv($path);
 
-        return response()->json([
-            "message" => "file uploaded",
-            "data" => [
-                "totalRecords" => count($transactions),
-                "items" => $transactions
-            ],
-        ], 201);
+            return response()->json([
+                "message" => "file uploaded",
+                "data" => [
+                    "totalRecords" => count($transactions),
+                    "items" => $transactions
+                ],
+            ], 201);
+
+        } catch (Exception $err) {
+
+            return response()->json(['message' => $err->getMessage()],$err->getCode());
+        }
+
     }
 
 }
