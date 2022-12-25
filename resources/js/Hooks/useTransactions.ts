@@ -2,7 +2,7 @@ import { apiConfig } from  "./../Config/api";
 import { TxnResponse } from "./../Types/transaction";
 import axios from "axios";
 
-export const useTransactions = () => {
+const useTransactions = () => {
     const getTransactions = async (
         walletAddress: string,
         pageNo: number

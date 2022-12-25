@@ -30,10 +30,8 @@ const Transactions = () => {
 
     const onSearchHandler = async () => {
         setPageNo(0);
-        console.log("waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",walletAddress)
         if (!walletAddress || walletAddress == "") return;
         const response = await getTransactions(walletAddress, pageNo);
-        console.log('hhhhhhhhhhhhhhhhhhhhhhh');
         setTransactions(response.data.transactions);
         setTransactionMeta(response.meta);
         setTotalAmount(response.data.totalAmount);
@@ -41,7 +39,7 @@ const Transactions = () => {
 
     const onPageChangeHandler = async (pageNo: number) => {
         setPageNo(pageNo);
-        const response = await getTransactions(walletAddress, pageNo);
+        const response = await getTransactions(walletAddress??"", pageNo);
         setTransactions(response.data.transactions);
         setTransactionMeta(response.meta);
     };

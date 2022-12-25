@@ -4,10 +4,10 @@ import CustomPagination from "./CustomPagination";
 import { ResponseMeta, Transaction } from "./../Types/transaction";
 
 type Props = {
-    variant:"dark"|"light";
+    variant: "dark" | "light";
     col: string[];
     data: Transaction[];
-    paginationMeta: ResponseMeta;
+    paginationMeta?: ResponseMeta;
     onPageChangeHandler: (pageNo: number) => void;
 };
 
@@ -21,15 +21,15 @@ const TransactionTable = ({
     const getColumnHeader = () => {
         return (
             <tr>
-                {col.map((header,index) => (
-                    <th key={index} >{header}</th>
+                {col.map((header, index) => (
+                    <th key={index}>{header}</th>
                 ))}
             </tr>
         );
     };
 
     const getBody = () => {
-        return data.map((transaction, index) => (
+        return paginationMeta ? data.map((transaction, index) => (
             <tr key={transaction.id}>
                 <td>
                     {paginationMeta.limit * paginationMeta.pageNo + index + 1}
@@ -39,20 +39,22 @@ const TransactionTable = ({
                 <td>{transaction.address}</td>
                 <td>{transaction.amount}</td>
             </tr>
-        ));
+        )):[];
     };
 
     return (
         <>
-            <Table  hover bordered variant={variant}>
+            <Table hover bordered variant={variant}>
                 <thead>{getColumnHeader()}</thead>
                 <tbody>{getBody()}</tbody>
             </Table>
-            <CustomPagination
-                currentPage={paginationMeta.pageNo}
-                totalPages={paginationMeta.totalPages}
-                onPageChange={onPageChangeHandler}
-            />
+            {paginationMeta && (
+                <CustomPagination
+                    currentPage={paginationMeta.pageNo}
+                    totalPages={paginationMeta.totalPages}
+                    onPageChange={onPageChangeHandler}
+                />
+            )}
         </>
     );
 };

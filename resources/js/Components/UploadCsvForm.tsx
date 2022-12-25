@@ -5,7 +5,7 @@ import CustomToast from "./CustomToast";
 
 const UploadTxnForm = () => {
     const [file, setFile] = useState<File>();
-    const fileRef = useRef();
+    const fileRef = useRef<any>();
     const { uploadTransactionCsv } = useTransactions();
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -22,12 +22,14 @@ const UploadTxnForm = () => {
     };
 
     const onSubmit = async () => {
+        if (!file) return;
+
         const response = await uploadTransactionCsv(file);
-        console.log(response);
+
         if (response.status == 201) {
             setIsSuccess(true);
             setIsError(false);
-            showToast()
+            showToast();
         } else {
             setIsError(true);
             setIsSuccess(false);
@@ -38,8 +40,20 @@ const UploadTxnForm = () => {
 
     return (
         <>
-            {isSuccess && <CustomToast variant="success" title="Success" message="File upload successful!"/>}
-            {isError && <CustomToast variant="danger" title="Failure" message="File upload failure!"/>}
+            {isSuccess && (
+                <CustomToast
+                    variant="success"
+                    title="Success"
+                    message="File upload successful!"
+                />
+            )}
+            {isError && (
+                <CustomToast
+                    variant="danger"
+                    title="Failure"
+                    message="File upload failure!"
+                />
+            )}
 
             <Card className="p-5 mt-3">
                 <Row>

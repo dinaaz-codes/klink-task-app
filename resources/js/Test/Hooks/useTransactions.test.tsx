@@ -5,12 +5,9 @@ import { transactions, uploadCsvResponse } from "../stubs/transaction.stub";
 jest.mock("axios");
 
 describe("useTransaction hook", () => {
-    afterEach(() => {});
 
     it("should get transactions on getTransactions call", async () => {
         const mockResponseData = transactions();
-        // const url =
-        //     "/api/transactions?wallet_address=0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43&page=0";
         (axios as any).get.mockResolvedValueOnce({ data: mockResponseData });
         const { result } = renderHook(useTransactions);
 
@@ -35,7 +32,7 @@ describe("useTransaction hook", () => {
         expect(response).toEqual(mockResponseData);
     });
 
-    it("should be throw erro on call uploadtransactionsCsv for noncsv file", async () => {
+    it("should throw error on call uploadtransactionsCsv for noncsv file", async () => {
         const { result } = renderHook(useTransactions);
         const file = new File(["foo"], "foo.txt", {
             type: "text/plain",
