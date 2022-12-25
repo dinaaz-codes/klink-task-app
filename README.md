@@ -27,7 +27,7 @@ php artisan test
 #Test with coverge (note:xdebug is required)
 php artisan test --coverage
 ```
-# Test Screenshot
+### Test Screenshot
 - Backend tests 
 ![Screenshot 2022-12-25 155500](https://user-images.githubusercontent.com/113454848/209464377-777b605c-8702-47ec-a031-632710d09480.png)
 - Frontend tests
