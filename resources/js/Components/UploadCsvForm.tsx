@@ -8,12 +8,14 @@ const UploadTxnForm = () => {
     const fileRef = useRef<any>();
     const { uploadTransactionCsv } = useTransactions();
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [toastMessage,setToastMessage] = useState<string>();
     const [isError, setIsError] = useState<boolean>(false);
 
     const showToast = () => {
         setTimeout(() => {
             setIsSuccess(false);
             setIsError(false);
+            setToastMessage(undefined);
         }, 3000);
     };
 
@@ -22,20 +24,23 @@ const UploadTxnForm = () => {
     };
 
     const onSubmit = async () => {
-        if (!file) return;
+        try {
+            if (!file) return;
+            const response = await uploadTransactionCsv(file);
 
-        const response = await uploadTransactionCsv(file);
-
-        if (response.status == 201) {
-            setIsSuccess(true);
-            setIsError(false);
-            showToast();
-        } else {
+            if (response.status == 201) {
+                setIsSuccess(true);
+                setIsError(false);
+                showToast();
+            }
+        } catch (err) {
             setIsError(true);
+            setToastMessage(err.response.data.message);
             setIsSuccess(false);
             showToast();
+        } finally {
+            (fileRef.current as any).value = "";
         }
-        (fileRef.current as any).value = "";
     };
 
     return (
@@ -44,14 +49,14 @@ const UploadTxnForm = () => {
                 <CustomToast
                     variant="success"
                     title="Success"
-                    message="File upload successful!"
+                    message={toastMessage || "File upload successful!"}
                 />
             )}
             {isError && (
                 <CustomToast
                     variant="danger"
                     title="Failure"
-                    message="File upload failure!"
+                    message={toastMessage || "File upload failure!"}
                 />
             )}
 
