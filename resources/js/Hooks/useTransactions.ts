@@ -15,7 +15,6 @@ export const useTransactions = () => {
 
             const response = await axios.get(url);
 
-            console.log(response.data)
             return response.data;
         } catch (err) {
             throw err;
@@ -24,7 +23,6 @@ export const useTransactions = () => {
 
     const uploadTransactionCsv = async (file: File) => {
         try {
-            console.log(file);
             const url = apiConfig.transactions.uploadCsv;
             const formData = new FormData();
 
