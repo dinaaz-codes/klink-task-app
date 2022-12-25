@@ -6,7 +6,7 @@ Task assigned by Klink for the role of fullstack engineer.
 - Show total amount of the transactions
 
 ### App Link
--
+- http://13.233.143.91:8000/
 ### Techstack
 1. Laravel 9
 2. React.js
