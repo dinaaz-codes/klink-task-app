@@ -6,13 +6,15 @@ Task assigned by Klink for the role of fullstack engineer.
 - Show total amount of the transactions
 
 ### App Link
--
+- http://13.233.143.91:8000/
 ### Techstack
 1. Laravel 9
 2. React.js
 3. MySQL
 4. PhpUnit
 5. Jest
+6. AWS
+
 ### Run Server
 ```bash
 composer install
