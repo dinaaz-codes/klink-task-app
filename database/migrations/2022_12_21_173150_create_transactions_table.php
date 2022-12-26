@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('tx_hash');
             $table->dateTime('date_time')->index('txn_date_time');
             $table->double('amount');
-            $table->string('address');
+            $table->string('address')->index('txn_address');
             $table->timestamps();
 
         });
